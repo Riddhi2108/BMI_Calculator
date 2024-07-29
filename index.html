@@ -1,38 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Age Calculator</title>
-    <!--Google Font-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <!--Stylesheet-->
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="/style.css">
+  </head>
 
-<body>
-    <h1>Calculate Your Age</h1>
+  <body>
     <div class="container">
-
-        <div class="inputs-wrapper">
-            <input type="date" id="date-input">
-            <button onclick="ageCalculate()">Calculate</button>
-        </div>
-        <div class="outputs-wrapper">
-            <div>
-                <span id="years">-</span>
-                <p>Years</p>
-            </div>
-            <div>
-                <span id="months">-</span>
-                <p>Months</p>
-            </div>
-            <div>
-                <span id="days">-</span>
-                <p>Days</p>
-            </div>
-        </div>
+      <h1>Age Calculator</h1>
+      <label for="birthdate">
+        What's your Date Of Birth?
+      </label>
+      <div><input type="date" name="BirthDate" id="birthdate"></div>
+      <div><button class="HTMLbuttonElement" type="submit">Calculate Age</button>
+      </div>
+      <p id="result">Your Age is...</p>
     </div>
-    <script src="app.js"></script>
-</body>
+    <script src="/script.js"></script>
+  </body>
 
 </html>

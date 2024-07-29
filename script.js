@@ -1,39 +1,26 @@
-function femaleClicked() {
-  var element = document.getElementByClassName("female");
-  element.classList.add("female-clicked");
-  element.classList.removeClass("female");
-}
-
-function maleClicked() {
-  var element = document.getElementByClassName("male");
-  element.classList.add("male-clicked");
-  element.classList.removeClass("male");
-}
-
-function calculateBmi() {
-var weight = document.bmiForm.weight.value
-var height = document.bmiForm.height.value
-
-if(weight > 0 && height > 0){
-var finalBmi = weight/(height/100*height/100)
-
-finalBmi = Math.floor(finalBmi);
-
-
-document.getElementById('result-text').innerHTML = finalBmi
-
-if (finalBmi < 18.5){
-document.getElementById('meaning').innerHTML = "You are underweight."
-
-} else if(finalBmi > 18.5 && finalBmi < 25){
-document.getElementById('meaning').innerHTML = "You are healthy."
-
-} else if(finalBmi > 25){
-document.getElementById('meaning').innerHTML = "You are overweight."
-}
-
-} else{
-document.getElementById('meaning').innerHTML = "Please Fill in everything correctly"
-}
-
-}
+const form =document.querySelector('form');
+form.addEventListener('submit',function(e){
+    e.preventDefault();
+    const height=parseInt(document.querySelector('#height').value);
+    const weight=parseInt(document.querySelector('#weight').value);
+    const results=document.querySelector('#results');
+    if(height==='' || height<0 || isNaN(height)){
+        results.innerHTML=`Please give a valid Height`;
+    }
+    else if(weight==='' || height<0 || isNaN(weight)){
+        results.innerHTML=`Please give a valid Weight`;
+    }
+    else{
+        const bmi=(weight/((height*height)/10000)).toFixed(2);
+        results.innerHTML=`<span>${bmi}</span>`
+        if(bmi<18.6){
+            review.innerHTML=`Under-weight!`;
+        }
+        else if(bmi>=18.6 && bmi<=24.9){
+            review.innerHTML=`You are Fit !`;
+        }
+        else if(bmi>24.9){
+            review.innerHTML=`Over-weight!`
+        }
+    }
+    })

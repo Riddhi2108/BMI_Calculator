@@ -1,7 +1,8 @@
-// Wait until the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     const calculateBtn = document.getElementById('calculateBtn');
     const result = document.getElementById('result');
+    const chartContainer = document.getElementById('chartContainer');
+    let bmiChart = null; // Variable to store the chart instance
 
     calculateBtn.addEventListener('click', function() {
         const heightInput = document.getElementById('height');
@@ -16,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
             result.textContent = "Please enter valid height and weight values.";
             result.classList.add('text-red-500');
+            // Hide chart if invalid input
+            chartContainer.classList.add('hidden');
             return;
         }
 
@@ -43,5 +46,70 @@ document.addEventListener('DOMContentLoaded', () => {
         // Display BMI and category
         result.textContent = `Your BMI is ${bmi} (${category})`;
         result.classList.add(colorClass);
+
+        // Show chart container
+        chartContainer.classList.remove('hidden');
+
+        // Create or update pie chart
+        const ctx = document.getElementById('bmiChart').getContext('2d');
+
+        if (bmiChart) {
+            // Update existing chart
+            bmiChart.data.datasets[0].data = [bmi, 40 - bmi]; // Adjust the second value for chart balance
+            bmiChart.update();
+        } else {
+            // Create new chart
+            bmiChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Your BMI', 'Remaining'],
+                    datasets: [{
+                        data: [bmi, 40 - bmi], // Adjust the second value for chart balance
+                        backgroundColor: ['#ff6384', '#e0e0e0'],
+                        borderColor: '#ffffff',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (context.parsed) {
+                                        label += ': ' + context.parsed.toFixed(2) + ' kg/m²'; // Added units
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#000000',
+                            display: true,
+                            formatter: (value) => `${value.toFixed(2)} kg/m²`, // Display values directly on segments
+                            font: {
+                                weight: 'bold',
+                                size: 14
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: '#000000',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutBounce'
+                    }
+                }
+            });
+        }
     });
 });
